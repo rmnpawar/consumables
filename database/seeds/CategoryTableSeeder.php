@@ -12,7 +12,9 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        $categories = ['Printers', 'Computers', 'UPS', 'Consumables'];
+        Category::truncate();
+
+        $categories = ['Printers', 'Computers', 'UPS', 'Peripherals', 'Cartridges', 'Drums'];
 
         foreach ($categories as $category) {
             Category::create([

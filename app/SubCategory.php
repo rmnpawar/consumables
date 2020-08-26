@@ -19,4 +19,18 @@ class SubCategory extends Model
     {
         return $this->belongsTo('App\Category');
     }
+
+    public static function getId($name)
+    {
+        $idObj = SubCategory::where('name', $name)->first('id');
+
+        if (!$idObj) return -1;
+
+        return $idObj['id'];
+    }
+
+    public function consumableFor()
+    {
+        return $this->belongsToMany('App\Products');
+    }
 }

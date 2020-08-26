@@ -46,4 +46,9 @@ class CategoryController extends Controller
     {
         return response()->json($category->sub_categories, 200);
     }
+
+    public function products(Category $category)
+    {
+        return response()->json($category->products, 200);
+    }
 }
