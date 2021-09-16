@@ -15,7 +15,7 @@ class SubCategoryController extends Controller
     public function index()
     {
         $subcategories = SubCategory::all();
-        return response()->json($subcategories, 200);
+        return response()->json($subcategories->load('category'), 200);
     }
 
     public function store(Request $request)
@@ -42,5 +42,16 @@ class SubCategoryController extends Controller
         $subCategory->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function products(SubCategory $subCategory)
+    {
+        return response()->json($subCategory->products->load('brand'), 200);
+    }
+
+    public function test()
+    {
+        $subCategory = SubCategory::withCount("assets")->get();
+        return $subCategory;
     }
 }

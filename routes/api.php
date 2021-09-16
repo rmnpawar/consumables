@@ -1,5 +1,6 @@
 <?php
 
+use App\Asset;
 use App\Category;
 use App\Products;
 use App\SubCategory;
@@ -17,13 +18,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 
 Route::group(['prefix' => '/categories'], function() {
     Route::get('/', 'CategoryController@index');
+    Route::get('/allconsumables', 'CategoryController@allConsumables');
     Route::get('/{category}', 'CategoryController@show');
     Route::get('/{category}/sub_categories', 'CategoryController@sub_categories');
     Route::get('/{category}/products', 'CategoryController@products');
@@ -31,12 +33,14 @@ Route::group(['prefix' => '/categories'], function() {
     Route::post('/', 'CategoryController@store');
     Route::put('/{category}', 'CategoryController@update');
     Route::delete('/{category}', 'CategoryController@destroy');
+
 });
 
 
 Route::group(['prefix' => '/sub_categories'], function() {
     Route::get('/', 'SubCategoryController@index');
     Route::get('/{subCategory}', 'SubCategoryController@show');
+    Route::get('/{subCategory}/products', 'SubCategoryController@products');
     Route::post('/', 'SubCategoryController@store');
     Route::put('/{subCategory}', 'SubCategoryController@update');
     Route::delete('/{subCategory}', 'SubCategoryController@destroy');
@@ -49,10 +53,12 @@ Route::group(['prefix' => '/products'], function() {
     Route::post('/', 'ProductsController@store');
     Route::put('/{product}', 'ProductsController@update');
     Route::delete('/{product}', 'ProductsController@destroy');
+
+    Route::get('/consumables', 'ProductsController@consumables');
 });
 
 
-Route::group(['prefix' => '/brand'], function() {
+Route::group(['prefix' => '/brands'], function() {
     Route::get('/', 'BrandController@index');
     Route::get('/{brand}', 'BrandController@show');
     Route::post('/', 'BrandController@store');
@@ -60,9 +66,78 @@ Route::group(['prefix' => '/brand'], function() {
     Route::delete('/{brand}', 'BrandController@destroy');
 });
 
-Route::get('/cat/{name}', function($name) {
-    $cat = Category::find($name);
-    return $cat->sub_categories;
+
+Route::group(['prefix' => '/sections'], function() {
+    Route::get('/', 'SectionController@index');
+    Route::get('/{section}', 'SectionController@show');
+    Route::post('/', 'SectionController@store');
+    Route::put('/{section}', 'SectionController@update');
+    Route::delete('/{section}', 'SectionController@destroy');
+});
+
+
+Route::group(['prefix' => '/user'], function() {
+    Route::get('/', 'Auth\LoginController@user');
+    Route::get('/logout', 'Auth\LoginController@logOut');
+    Route::get('/list', 'UserController@sectionList');
+    Route::post('/login', 'Auth\LoginController@login');
+    Route::post('/register', 'Auth\RegisterController@register');
+    Route::post('/{user}/assignroles', 'UserController@assignRoles');
+});
+
+
+Route::group(['prefix' => '/role'], function() {
+    Route::get('/', 'RoleController@index');
+    Route::get('/{route}', 'RoleController@show');
+    Route::post('/', 'RoleController@store');
+    Route::post('/{role}/givepermission', 'RoleController@givePermission');
+    Route::put('/{route}', 'RoleController@update');
+    Route::delete('/{route}', 'RoleController@destroy');
+});
+
+
+Route::group(['prefix' => '/permission'], function() {
+    Route::get('/', 'PermissionController@index');
+    Route::get('/{permission}', 'PermissionController@show');
+    Route::post('/', 'PermissionController@store');
+    Route::put('/{permission}', 'PermissionController@update');
+    Route::delete('/{permission}', 'PermissionController@destroy');
+});
+
+
+Route::group(['prefix' => '/consumables'], function() {
+    Route::get('/', 'ConsumableController@index');
+    Route::post('/', 'ConsumableController@store');
+});
+
+
+Route::group(['prefix' => '/suppliers'], function () {
+    Route::get('/', 'SupplierController@index');
+    Route::get('/{supplier}', 'SupplierController@show');
+    Route::post('/', 'SupplierController@store');
+    Route::put('/{supplier}', 'SupplierController@update');
+    Route::delete('/{supplier}', 'SupplierController@delete');
+});
+
+
+Route::group(['prefix' => '/invoices'], function() {
+    Route::get('/', 'InvoiceController@index');
+    Route::get('/{invoice}', 'InvoiceController@show');
+    Route::post('/', 'InvoiceController@store');
+    Route::post('/{item}/receive', 'InvoiceItemController@receiveItem');
+    Route::post('/{invoice}/items', 'InvoiceController@addItems');
+    Route::delete('/{invoice}', 'InvoiceController@delete');
+});
+
+
+Route::group(['prefix' => '/assets'], function() {
+    Route::get('/', 'AssetController@index');
+    Route::get('/list', 'AssetController@assetList');
+});
+
+
+Route::get('/test', function() {
+    return Asset::test();
 });
 
 Route::get('/product/{product}/add/{subcategory}', function($product, $subcategory) {
@@ -76,3 +151,6 @@ Route::get('/product/{product}/add/{subcategory}', function($product, $subcatego
 
     return response()->json($cons, 200);
 });
+
+
+Route::get('/test','SubCategoryController@test');

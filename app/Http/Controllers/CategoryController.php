@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\SubCategory;
 
 class CategoryController extends Controller
 {
+    
+    public function __construct()
+    {
+        //$this->middleware('auth:api');
+    }
+
     public function index()
     {
         $categories = Category::all();
@@ -50,5 +58,21 @@ class CategoryController extends Controller
     public function products(Category $category)
     {
         return response()->json($category->products, 200);
+    }
+
+    public function allConsumables()
+    {
+        $categories = Category::select('id')->where('consumable', 1)->get();
+
+        $plain_array = [];
+
+        foreach($categories as $category)
+        {
+            array_push($plain_array, $category->id);
+        }
+
+        $sub_categories = SubCategory::whereIn('category_id', $plain_array)->get();
+
+        return response()->json($sub_categories, 200);
     }
 }

@@ -9,7 +9,7 @@ class ProductsController extends Controller
 {
     public function index()
     {
-        return response()->json(Products::with('consumables')->get(), 200);
+        return response()->json(Products::with('consumables', 'brand', 'sub_category', 'sub_category.category')->get(), 200);
     }
 
 
@@ -38,5 +38,12 @@ class ProductsController extends Controller
         $product->delete();
 
         return response()->json(null, 204);
+    }
+
+    public function consumables()
+    {
+        $consumables = Products::where(function($query) {
+            
+        })->get();
     }
 }
