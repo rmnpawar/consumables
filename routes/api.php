@@ -4,6 +4,8 @@ use App\Asset;
 use App\Category;
 use App\Products;
 use App\SubCategory;
+use App\User;
+use App\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -136,8 +138,20 @@ Route::group(['prefix' => '/assets'], function() {
 });
 
 
-Route::get('/test', function() {
-    return Asset::test();
+Route::get('/start', function() {
+    $section = Section::create([
+        "section_name" => "D&RAC"
+    ]);
+
+
+    $user = User::create([
+        "name" => "Administrator",
+        "email" => "saorda.def@cag.gov.in",
+        "section_id" => 1,
+        "password" => Hash::make("password"),
+    ]);
+
+    return response()->json($user, 200);
 });
 
 Route::get('/product/{product}/add/{subcategory}', function($product, $subcategory) {
@@ -147,10 +161,12 @@ Route::get('/product/{product}/add/{subcategory}', function($product, $subcatego
     $pd->consumables()->attach($subcategory);
 
     $cons = $pd->consumables;
-    
+
 
     return response()->json($cons, 200);
 });
 
 
-Route::get('/test','SubCategoryController@test');
+Route::get('/test', function() {
+    return "Run";
+});
