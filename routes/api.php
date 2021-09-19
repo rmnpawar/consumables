@@ -132,7 +132,15 @@ Route::group(['prefix' => '/invoices'], function() {
 
 Route::group(['prefix' => '/assets'], function() {
     Route::get('/', 'AssetController@index');
+    Route::get('/in_category/{id}', 'AssetController@assetInCategory');
+    Route::post('/issue_against_request', 'AssetController@issueAgainstRequest');
     Route::get('/list', 'AssetController@assetList');
+});
+
+
+Route::group(['prefix' => '/requests'], function() {
+    Route::get('/', 'RequestController@createdRequests');
+    Route::post('/', 'RequestController@store');
 });
 
 
@@ -147,7 +155,7 @@ Route::get('/product/{product}/add/{subcategory}', function($product, $subcatego
     $pd->consumables()->attach($subcategory);
 
     $cons = $pd->consumables;
-    
+
 
     return response()->json($cons, 200);
 });

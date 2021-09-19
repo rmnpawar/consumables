@@ -11,7 +11,7 @@ class Asset extends Model
 
     protected $appends = ['asset_id', 'product_name', 'consumables', 'user_name', 'section_name', 'last_updated'];
 
-    protected $hidden = ['products', 'user', 'section', 'created_at', 'updated_at'];
+    protected $hidden = [ 'user', 'section', 'created_at', 'updated_at'];
 
     public function getCategoryAttribute()
     {
@@ -48,7 +48,7 @@ class Asset extends Model
     {
         if ($this->in_stock == 1)
             return 0;
-        else 
+        else
             return $this->user->name;
     }
 
@@ -56,7 +56,7 @@ class Asset extends Model
     {
         if ($this->in_stock == 1)
             return 0;
-        else 
+        else
             return $this->section->name;
     }
 
@@ -76,6 +76,20 @@ class Asset extends Model
     public static function getSectionAssets($section_id)
     {
         return Asset::where('section_id', $section_id)->get()->load('products.consumables');
+    }
+
+
+    public function format()
+    {
+        return [
+            'asset_number' => $this->asset_number,
+            'products_id' => $this->product_id,
+            'product_name' => $this->products->brand->name . " " . $this->products->model,
+            'in_stock' => $this->in_stock,
+            'serial_no' => $this->serial_no,
+            'invoice_id' => $this->invoice_id,
+            'invoice_details' => $this->invoice->invoice_number . " " . $this->invoice->invoice_number,
+        ];
     }
 
 
@@ -104,7 +118,7 @@ class Asset extends Model
     public static function createWithItem($item, $serial_nos)
     {
         if ($item->products)
-        
+
         $latest_serial_no = Asset::lastSerialNumber($item->products->sub_category->id, $item->invoice->invoice_date);
 
         for ($i = 0; $i < $item['quantity']; $i++)
@@ -132,7 +146,7 @@ class Asset extends Model
         $sub_category = $this->product->sub_category;
     }
 
-    public function products() 
+    public function products()
     {
         return $this->belongsTo('App\Products');
     }
@@ -162,8 +176,8 @@ class Asset extends Model
         })
         ->whereHas('invoice', function($query) use ($invoice_date){
             $date = now();
-            $date->month(1)->day(1);    
-            
+            $date->month(1)->day(1);
+
             $query->where('invoice_date', '<=', $invoice_date);
         })
         ->orderBy('asset_number', 'desc')
