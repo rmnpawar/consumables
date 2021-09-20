@@ -15,6 +15,12 @@ class CreateConsumableRequestsTable extends Migration
     {
         Schema::create('consumable_requests', function (Blueprint $table) {
             $table->id();
+            $table->integer('asset_id');
+            $table->integer('sub_category_id');
+            $table->integer('user_id');
+            $table->integer('section_id');
+            $table->integer('requesting_user_id');
+            $table->integer('status');
             $table->timestamps();
         });
     }

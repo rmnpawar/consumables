@@ -8,6 +8,7 @@ use App\User;
 use App\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -140,16 +141,11 @@ Route::group(['prefix' => '/assets'], function() {
 });
 
 
-<<<<<<< HEAD
 Route::group(['prefix' => '/requests'], function() {
     Route::get('/', 'RequestController@createdRequests');
     Route::post('/', 'RequestController@store');
 });
 
-
-Route::get('/test', function() {
-    return Asset::test();
-=======
 Route::get('/start', function() {
     $section = Section::create([
         "section_name" => "D&RAC"
@@ -164,7 +160,6 @@ Route::get('/start', function() {
     ]);
 
     return response()->json($user, 200);
->>>>>>> 4db7692dd5f47278bc7d76e7a7731a38ae19fcc1
 });
 
 Route::get('/product/{product}/add/{subcategory}', function($product, $subcategory) {
