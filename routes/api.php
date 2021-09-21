@@ -144,6 +144,7 @@ Route::group(['prefix' => '/assets'], function() {
 Route::group(['prefix' => '/requests'], function() {
     Route::get('/', 'RequestController@createdRequests');
     Route::post('/', 'RequestController@store');
+    Route::post('/consumable/create', 'RequestController@createConsumableRequest');
 });
 
 Route::get('/start', function() {
