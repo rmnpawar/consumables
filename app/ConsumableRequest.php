@@ -36,6 +36,7 @@ class ConsumableRequest extends Model
     public function format()
     {
         return [
+            'id' => $this->id,
             'asset_id' => $this->asset_id,
             'asset_name' => $this->asset->product_name,
             'user_id' => $this->user_id,

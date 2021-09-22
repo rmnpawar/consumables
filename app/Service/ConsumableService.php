@@ -11,6 +11,7 @@ class ConsumableService {
         $consumables = Consumable::join('products', 'products_id', '=', 'products.id')
         ->join('brands', 'products.brand_id', '=', 'brands.id')
         ->join('invoices', 'invoice_id', '=', 'invoices.id')
+        ->select('*', 'consumables.id as consumable_id')
         ->where('sub_category_id', $id)
         ->get();
 

@@ -14,7 +14,7 @@ class AddProductIdConsumableRequests extends Migration
     public function up()
     {
         Schema::table('consumable_requests', function (Blueprint $table) {
-            $table->integer('product_id')->default(0);
+            $table->integer('consumable_id')->default(0);
         });
     }
 
