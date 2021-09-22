@@ -40,4 +40,11 @@ class RequestController extends Controller
 
         return response()->json($request, 200);
     }
+
+    public function consumableRequests()
+    {
+        $requests = ConsumableRequest::where('status', 0)->get()->map->format();
+
+        return response()->json($requests, 200);
+    }
 }

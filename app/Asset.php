@@ -9,11 +9,8 @@ class Asset extends Model
 {
     protected $fillable = ['products_id', 'invoice_id', 'section_id'];
 
-<<<<<<< HEAD
     protected $appends = ['asset_id', 'product_name', 'consumables', 'user_name', 'section_name', 'brand_name','last_updated'];
-=======
-    protected $appends = ['asset_id', 'product_name', 'consumables', 'user_name', 'section_name','brand_name', 'last_updated'];
->>>>>>> ad27408823d2ee332fb9f34f1a80fe9896fde0ea
+
 
     protected $hidden = ['section', 'created_at', 'updated_at'];
 
