@@ -111,6 +111,7 @@ Route::group(['prefix' => '/permission'], function() {
 Route::group(['prefix' => '/consumables'], function() {
     Route::get('/', 'ConsumableController@index');
     Route::post('/', 'ConsumableController@store');
+    Route::get('/for_id/{id}', 'ConsumableController@availableConsumables');
 });
 
 
@@ -145,6 +146,7 @@ Route::group(['prefix' => '/requests'], function() {
     Route::get('/', 'RequestController@createdRequests');
     Route::post('/', 'RequestController@store');
     Route::post('/consumable/create', 'RequestController@createConsumableRequest');
+    Route::post('/consumable/approve', 'ConsumableRequestController@approveRequest');
     Route::get('/consumables', 'RequestController@consumableRequests');
 });
 
