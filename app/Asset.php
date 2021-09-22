@@ -9,9 +9,13 @@ class Asset extends Model
 {
     protected $fillable = ['products_id', 'invoice_id', 'section_id'];
 
+<<<<<<< HEAD
     protected $appends = ['asset_id', 'product_name', 'consumables', 'user_name', 'section_name', 'brand_name','last_updated'];
+=======
+    protected $appends = ['asset_id', 'product_name', 'consumables', 'user_name', 'section_name','brand_name', 'last_updated'];
+>>>>>>> ad27408823d2ee332fb9f34f1a80fe9896fde0ea
 
-    protected $hidden = [ 'user', 'section', 'created_at', 'updated_at'];
+    protected $hidden = ['section', 'created_at', 'updated_at'];
 
     public function getCategoryAttribute()
     {
@@ -59,6 +63,8 @@ class Asset extends Model
         else
             return $this->section->name;
     }
+
+
 
     public function getLastUpdatedAttribute()
     {

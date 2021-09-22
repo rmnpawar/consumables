@@ -8,6 +8,7 @@ use App\User;
 use App\Section;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,9 +144,8 @@ Route::group(['prefix' => '/assets'], function() {
 Route::group(['prefix' => '/requests'], function() {
     Route::get('/', 'RequestController@createdRequests');
     Route::post('/', 'RequestController@store');
+    Route::post('/consumable/create', 'RequestController@createConsumableRequest');
 });
-
-
 
 Route::get('/start', function() {
     $section = Section::create([
