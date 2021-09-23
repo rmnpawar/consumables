@@ -111,6 +111,7 @@ Route::group(['prefix' => '/permission'], function() {
 Route::group(['prefix' => '/consumables'], function() {
     Route::get('/', 'ConsumableController@index');
     Route::post('/', 'ConsumableController@store');
+    Route::get('/history', 'ConsumableController@issueHistory');
     Route::get('/for_id/{id}', 'ConsumableController@availableConsumables');
 });
 
