@@ -39,6 +39,7 @@ class ConsumableRequest extends Model
             'id' => $this->id,
             'asset_id' => $this->asset_id,
             'asset_name' => $this->asset->product_name,
+            'asset_number' => $this->asset->asset_number,
             'user_id' => $this->user_id,
             'user_name' => $this->user->name,
             'section_name' => $this->section->section_name,

@@ -48,6 +48,8 @@ class ConsumableController extends Controller
 
         $issues = $query->where('status',3)->get()->map->format();
 
+        return $issues;
+
         return response()->json($issues, 200);
     }
 }
