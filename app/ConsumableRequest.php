@@ -33,6 +33,10 @@ class ConsumableRequest extends Model
         return $this->belongsTo('App\User', 'requesting_user_id', 'id');
     }
 
+    public function getDateAttribute() {
+        return $this->updated_at->format('d-m-Y');
+    }
+
     public function format()
     {
         return [
@@ -48,6 +52,7 @@ class ConsumableRequest extends Model
             'sub_category_id' => $this->sub_category_id,
             'sub_category' => $this->sub_category->name,
             'status' => $this->status,
+            'date' => $this->date
         ];
     }
 }

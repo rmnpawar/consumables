@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Asset;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,5 +23,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get("/", function() {
-    dd(env("START_STATE"));
+    $assets = Asset::with('products', 'products.sub_category', 'products.sub_category.category' ,'user', 'section', 'invoice')->get()->map->format();
+    return view("welcome", $assets);
 });

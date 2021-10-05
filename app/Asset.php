@@ -14,9 +14,16 @@ class Asset extends Model
 
     protected $hidden = ['section', 'created_at', 'updated_at'];
 
+
+
     public function getCategoryAttribute()
     {
         return $this->products->sub_category->category->cat_name;
+    }
+
+    public function getSubCategoryAttribute()
+    {
+        return $this->products->sub_category->name;
     }
 
     public function getBrandNameAttribute()
@@ -85,13 +92,18 @@ class Asset extends Model
     public function format()
     {
         return [
-            'asset_number' => $this->asset_number,
-            'products_id' => $this->product_id,
-            'product_name' => $this->products->brand->name . " " . $this->products->model,
-            'in_stock' => $this->in_stock,
+            'category' => $this->category,
+            'sub_category' => $this->sub_category,
+            'asset_id' => $this->asset_id,
             'serial_no' => $this->serial_no,
+            'products_id' => $this->products_id,
+            'product_name' => $this->products->brand->name . " " . $this->products->model,
+            'invoice_details' => $this->invoice->invoice_number . " " . $this->invoice->invoice_date,
+            'in_stock' => $this->in_stock,
+            'user_id' => $this->user_id,
+            'user_name' => $this->user->name,
+            'section_name' => $this->section->section_name,
             'invoice_id' => $this->invoice_id,
-            'invoice_details' => $this->invoice->invoice_number . " " . $this->invoice->invoice_number,
         ];
     }
 
