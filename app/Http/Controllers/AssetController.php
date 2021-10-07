@@ -43,6 +43,11 @@ class AssetController extends Controller
         return response()->json(AssetIssue::where('asset_id', $id)->get()->map->format(), 200);
     }
 
+    public function repairHistory(Asset $asset)
+    {
+        return response()->json($asset->repairs, 200);
+    }
+
     public function store(Request $request)
     {
         $asset = Asset::create($request->all());

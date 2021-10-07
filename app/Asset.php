@@ -92,6 +92,7 @@ class Asset extends Model
     public function format()
     {
         return [
+            'id' => $this->id,
             'category' => $this->category,
             'sub_category' => $this->sub_category,
             'asset_id' => $this->asset_id,
@@ -186,6 +187,11 @@ class Asset extends Model
     public function section()
     {
         return $this->belongsTo('App\Section');
+    }
+
+    public function repairs()
+    {
+        return $this->hasMany('App\Repair');
     }
 
 

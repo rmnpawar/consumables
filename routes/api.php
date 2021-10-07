@@ -141,6 +141,7 @@ Route::group(['prefix' => '/assets'], function() {
     Route::post('/issue_against_request', 'AssetController@issueAgainstRequest');
     Route::get('/list', 'AssetController@assetList');
     Route::get('/{id}/history', 'AssetController@assetHistory');
+    Route::get('/{asset}/repairs', 'AssetController@repairHistory');
 });
 
 
