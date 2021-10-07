@@ -99,11 +99,13 @@ class Asset extends Model
             'products_id' => $this->products_id,
             'product_name' => $this->products->brand->name . " " . $this->products->model,
             'invoice_details' => $this->invoice->invoice_number . " " . $this->invoice->invoice_date,
+            'item_price' => $this->invoice_item->rate,
             'in_stock' => $this->in_stock,
             'user_id' => $this->user_id,
             'user_name' => $this->user->name,
             'section_name' => $this->section->section_name,
             'invoice_id' => $this->invoice_id,
+            'last_updated' => $this->last_updated,
         ];
     }
 
@@ -169,6 +171,11 @@ class Asset extends Model
     public function invoice()
     {
         return $this->belongsTo('App\Invoice');
+    }
+
+    public function invoice_item()
+    {
+        return $this->hasOneThrough("App\InvoiceItem", "App\Invoice", "id", "invoice_id", "invoice_id", "id");
     }
 
     public function user()

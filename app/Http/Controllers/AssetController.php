@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Asset;
+use App\AssetIssue;
 use App\Service\AssetService;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class AssetController extends Controller
 
     public function assetList()
     {
-        return response()->json(Asset::where('disposed', 0)->get());
+        return response()->json(Asset::where('disposed', 0)->get()->map->format(), 200);
     }
 
     public function assetInCategory($id)
@@ -35,6 +36,11 @@ class AssetController extends Controller
             return 1;
 
         return 0;
+    }
+
+    public function assetHistory(Request $request, $id)
+    {
+        return response()->json(AssetIssue::where('asset_id', $id)->get()->map->format(), 200);
     }
 
     public function store(Request $request)

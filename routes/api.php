@@ -140,6 +140,7 @@ Route::group(['prefix' => '/assets'], function() {
     Route::get('/in_category/{id}', 'AssetController@assetInCategory');
     Route::post('/issue_against_request', 'AssetController@issueAgainstRequest');
     Route::get('/list', 'AssetController@assetList');
+    Route::get('/{id}/history', 'AssetController@assetHistory');
 });
 
 
@@ -180,6 +181,4 @@ Route::get('/product/{product}/add/{subcategory}', function($product, $subcatego
 });
 
 
-Route::get('/test', function() {
-    return "Run";
-});
+Route::get('/test', "AssetController@assetHistory");
