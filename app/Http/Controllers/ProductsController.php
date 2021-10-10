@@ -30,7 +30,6 @@ class ProductsController extends Controller
         $product->update($request->all());
 
         return response()->json($product, 201);
-
     }
 
     public function destroy(Products $product)
@@ -42,8 +41,19 @@ class ProductsController extends Controller
 
     public function consumables()
     {
-        $consumables = Products::where(function($query) {
-            
+        $consumables = Products::where(function ($query) {
         })->get();
+    }
+
+    public function attach(Request $request, $id)
+    {
+
+        $product = Products::findOrFail($id);
+
+        $consumables = $request->post('consumables');
+
+        $product->consumables()->sync($consumables);
+
+        return response()->json(['successfull', 200]);
     }
 }

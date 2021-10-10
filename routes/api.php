@@ -58,6 +58,7 @@ Route::group(['prefix' => '/products'], function() {
     Route::delete('/{product}', 'ProductsController@destroy');
 
     Route::get('/consumables', 'ProductsController@consumables');
+    Route::post('/consumables/{products_id}', 'ProductsController@attach');
 });
 
 
@@ -111,6 +112,7 @@ Route::group(['prefix' => '/permission'], function() {
 Route::group(['prefix' => '/consumables'], function() {
     Route::get('/', 'ConsumableController@index');
     Route::post('/', 'ConsumableController@store');
+    Route::get('/summary', 'ConsumableController@consumable_summary');
     Route::get('/history', 'ConsumableController@issueHistory');
     Route::get('/for_id/{id}', 'ConsumableController@availableConsumables');
 });

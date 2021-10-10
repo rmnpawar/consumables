@@ -9,7 +9,7 @@ use App\SubCategory;
 
 class CategoryController extends Controller
 {
-    
+
     public function __construct()
     {
         //$this->middleware('auth:api');
@@ -62,7 +62,7 @@ class CategoryController extends Controller
 
     public function allConsumables()
     {
-        $categories = Category::select('id')->where('consumable', 1)->get();
+        $categories = Category::select('id')->where('type', 1)->get();
 
         $plain_array = [];
 

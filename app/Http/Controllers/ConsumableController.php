@@ -6,12 +6,24 @@ use App\Consumable;
 use App\ConsumableRequest;
 use App\Service\ConsumableService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ConsumableController extends Controller
 {
     public function index()
     {
         return response()->json(Consumable::with('product')->get(), 200);
+    }
+
+    public function consumable_summary()
+    {
+        $summary = Consumable::join('products', 'products.id', '=', 'products_id')
+            ->join('sub_categories', 'sub_categories.id', '=', 'products.sub_category_id')
+            ->select('products.sub_category_id', 'sub_categories.name', DB::raw('SUM(balance) as balance'))
+            ->groupBy('products.sub_category_id')
+            ->get();
+
+        return response()->json($summary, 200);
     }
 
     public function store(Request $request)
@@ -46,7 +58,7 @@ class ConsumableController extends Controller
             $query->where('section_id', $request->get('section_id'));
         }
 
-        $issues = $query->where('status',3)->get()->map->format();
+        $issues = $query->where('status', 3)->get()->map->format();
 
         return $issues;
 
