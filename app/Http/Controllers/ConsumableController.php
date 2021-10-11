@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Consumable;
 use App\ConsumableRequest;
+use App\Http\Resources\ConsumableResource;
 use App\Service\ConsumableService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,41 @@ class ConsumableController extends Controller
 {
     public function index()
     {
-        return response()->json(Consumable::with('product')->get(), 200);
+        return response()->json(
+            Consumable::join('invoice_items', function ($join) {
+                $join->on('consumables.invoice_id', '=', 'invoice_items.invoice_id')
+                    ->on('invoice_items.products_id', 'consumables.products_id');
+            })
+                ->join('invoices', 'invoices.id', 'consumables.invoice_id')
+                ->join('products', 'products.id', '=', 'consumables.products_id')
+                ->join('brands', 'brands.id', 'products.brand_id')
+                ->join('sub_categories', 'sub_categories.id', 'products.sub_category_id')
+                ->select(
+                    'consumables.id',
+                    'sub_categories.id as sub_category_id',
+                    'sub_categories.name as sub_category',
+                    'products.id as product_id',
+                    'brands.name as brand',
+                    'products.model as model',
+                    'invoices.invoice_number as invoice_number',
+                    'invoices.invoice_date as invoice_date',
+                    'invoice_items.rate as price',
+                    'consumables.balance as balance')
+                ->get(),
+            200
+        );
+
+
+
+        // ->get();
+        // return response()->json(Consumable::with('product')
+        // ->join('invoice_items', function($join) {
+        //     $join->on('consumables.invoice_id', '=', 'invoice_items.invoice_id');
+        //     // ->where('consumables.products_id', '=', 'invoice_items.products_id');
+        // })
+        // ->select('consumables.id', 'rate')
+        // ->get(), 200);
+        // return ConsumableResource::collection((Consumable::all()));
     }
 
     public function consumable_summary()

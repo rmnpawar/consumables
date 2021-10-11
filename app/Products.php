@@ -26,7 +26,7 @@ class Products extends Model
 
     public function getIsConsumableAttribute()
     {
-        return $this->sub_category->category->consumable;
+        return $this->sub_category->category->type == 1;
     }
 
     public function setSubCategoryAttribute($name)

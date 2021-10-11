@@ -176,7 +176,7 @@ class Asset extends Model
 
     public function invoice_item()
     {
-        return $this->hasOneThrough("App\InvoiceItem", "App\Invoice", "id", "invoice_id", "invoice_id", "id");
+
     }
 
     public function user()

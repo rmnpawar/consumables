@@ -10,11 +10,20 @@ class Consumable extends Model
 
     // protected $appends = ['brand_name'];
 
-    protected $hidden = ['product'];
 
     public function product()
     {
         return $this->belongsTo('App\Products', 'products_id', 'id');
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo("App\Invoice");
+    }
+
+    public function invoice_item()
+    {
+        return $this->hasOneThrough('App\InvoiceItem', 'App\Invoice');
     }
 
     public function getBrandNameAttribute()
