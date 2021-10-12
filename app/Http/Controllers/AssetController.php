@@ -11,7 +11,10 @@ class AssetController extends Controller
 {
     public function index(Request $request)
     {
-        return response()->json(Asset::all()->map->format(), 200);
+        return response()->json(Asset::all(),
+        // ->map
+        // ->format(),
+         200);
     }
 
     public function userOrSectionAssets(Request $request)

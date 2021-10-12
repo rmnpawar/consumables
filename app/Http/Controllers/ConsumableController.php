@@ -36,18 +36,6 @@ class ConsumableController extends Controller
                 ->get(),
             200
         );
-
-
-
-        // ->get();
-        // return response()->json(Consumable::with('product')
-        // ->join('invoice_items', function($join) {
-        //     $join->on('consumables.invoice_id', '=', 'invoice_items.invoice_id');
-        //     // ->where('consumables.products_id', '=', 'invoice_items.products_id');
-        // })
-        // ->select('consumables.id', 'rate')
-        // ->get(), 200);
-        // return ConsumableResource::collection((Consumable::all()));
     }
 
     public function consumable_summary()

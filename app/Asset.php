@@ -9,7 +9,7 @@ class Asset extends Model
 {
     protected $fillable = ['products_id', 'invoice_id', 'section_id'];
 
-    protected $appends = ['asset_id', 'product_name', 'consumables', 'user_name', 'section_name', 'brand_name','last_updated'];
+    protected $appends = ['asset_id', 'product_name', 'consumables', 'user_name', 'section_name', 'brand_name','last_updated', 'price'];
 
 
     protected $hidden = ['section', 'created_at', 'updated_at'];
@@ -50,6 +50,11 @@ class Asset extends Model
         }
 
         return $consumables;
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->invoice_item->rate;
     }
 
     public function getUserNameAttribute()
@@ -100,7 +105,7 @@ class Asset extends Model
             'products_id' => $this->products_id,
             'product_name' => $this->products->brand->name . " " . $this->products->model,
             'invoice_details' => $this->invoice->invoice_number . " " . $this->invoice->invoice_date,
-            'item_price' => $this->invoice_item->rate,
+            'price' => $this->price,
             'in_stock' => $this->in_stock,
             'user_id' => $this->user_id,
             'user_name' => $this->user->name,
@@ -176,7 +181,7 @@ class Asset extends Model
 
     public function invoice_item()
     {
-
+        return $this->hasOne('App\InvoiceItem', 'invoice_id', 'invoice_id')->where('invoice_items.products_id', '=', $this->products_id);
     }
 
     public function user()
