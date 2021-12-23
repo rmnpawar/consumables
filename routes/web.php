@@ -26,3 +26,5 @@ Route::get("/", function() {
     $assets = Asset::with('products', 'products.sub_category', 'products.sub_category.category' ,'user', 'section', 'invoice')->get()->map->format();
     return view("welcome", $assets);
 });
+
+Route::get('/complaint', 'ComplaintController@store');

@@ -54,15 +54,15 @@ class Asset extends Model
 
     public function getPriceAttribute()
     {
-        return $this->invoice_item->rate;
+        return $this->invoice_item ? $this->invoice_item->rate : "";
     }
 
     public function getUserNameAttribute()
     {
         if ($this->in_stock == 1)
-            return 0;
+            return "In Stock";
         else
-            return $this->user->name;
+            return $this->user->name . " " . $this->section->section_name;
     }
 
     public function getSectionNameAttribute()
@@ -70,7 +70,7 @@ class Asset extends Model
         if ($this->in_stock == 1)
             return 0;
         else
-            return $this->section->name;
+            return $this->section->section_name;
     }
 
 
@@ -108,6 +108,7 @@ class Asset extends Model
             'price' => $this->price,
             'in_stock' => $this->in_stock,
             'user_id' => $this->user_id,
+            'current_position' => $this->user_name,
             'user_name' => $this->user->name,
             'section_name' => $this->section->section_name,
             'invoice_id' => $this->invoice_id,

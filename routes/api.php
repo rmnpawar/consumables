@@ -155,6 +155,14 @@ Route::group(['prefix' => '/requests'], function() {
     Route::get('/consumables', 'RequestController@consumableRequests');
 });
 
+Route::group(['prefix' => '/complaints'], function() {
+    Route::get('/', 'ComplaintController@index');
+    Route::post('/store', 'ComplaintController@store');
+    Route::get('/{id}/close', 'ComplaintController@closeComplaint');
+    Route::post('/{id}/action/create', 'ComplaintController@complaintAction');
+    Route::get('/{id}/actions', 'ComplaintController@complaintActions');
+});
+
 Route::get('/start', function() {
     $section = Section::create([
         "section_name" => "D&RAC"
